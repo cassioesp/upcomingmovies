@@ -2,8 +2,13 @@
     <string name="app_name">upcomingmovies</string>
 
     <string name="please_wait">please wait…</string>
-    <string name="title">title</string>
     <string name="results">results</string>
     <string name="english_us">en-US</string>
     <string name="load_more">Load More</string>
+
+    <!--  JSON attributes !-->
+    <string name="title">title</string>
+    <string name="genre">genre_ids</string>
+    <string name="release_date">release_date</string>
+    <string name="poster_path">poster_path</string>
 </resources>

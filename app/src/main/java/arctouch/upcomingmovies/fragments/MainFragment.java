@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arctouch.upcomingmovies.R;
+import arctouch.upcomingmovies.adapters.MovieAdapter;
+import arctouch.upcomingmovies.domain.Movie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -29,11 +31,11 @@ import okhttp3.Response;
  */
 public class MainFragment extends Fragment {
 
-    private List<String> movieNames;
+    private ArrayList<Movie> movies;
 
     private ProgressDialog pDialog;
 
-    private ArrayAdapter<String> adapter;
+    private MovieAdapter adapter;
 
     private int page = 1;
 
@@ -60,9 +62,8 @@ public class MainFragment extends Fragment {
         });
 
         //List of Movies used by adapter.
-        movieNames = new ArrayList<String>();
-        adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, movieNames);
+        movies = new ArrayList<Movie>();
+        adapter = new MovieAdapter(getActivity(), R.layout.row, movies);
         listOfMovies.setAdapter(adapter);
 
         // Calls ASyncTask to make a GET request to the server.
@@ -83,6 +84,7 @@ public class MainFragment extends Fragment {
         /* TMDB API KEY.*/
         private final String URL = "https://api.themoviedb.org/3/movie/upcoming?api_key=" +
                 API_KEY + "&language=" + getString(R.string.english_us) + "&page=";
+        private final String POSTER_PATH_URL = "http://image.tmdb.org/t/p/w92/";
 
         private final OkHttpClient client;
 
@@ -112,8 +114,15 @@ public class MainFragment extends Fragment {
                 JSONArray upcomingMovies = jsonObj.getJSONArray(getString(R.string.results));
                 //Add in our list all the results fetched.
                 for (int i = 0; i < upcomingMovies.length(); i++) {
-                    JSONObject station = upcomingMovies.getJSONObject(i);
-                    movieNames.add(station.get(getString(R.string.title)).toString());
+                    JSONObject movieJson = upcomingMovies.getJSONObject(i);
+
+                    Movie movie = new Movie();
+                    movie.setTitle(movieJson.getString(getString(R.string.title)));
+                    movie.setPosterPath(POSTER_PATH_URL + movieJson.getString(getString(R.string.poster_path)));
+                    movie.setReleaseDate(movieJson.getString(getString(R.string.release_date)));
+                    movie.setGenre(movieJson.getString(getString(R.string.genre)).split(", "));
+
+                    movies.add(movie);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
