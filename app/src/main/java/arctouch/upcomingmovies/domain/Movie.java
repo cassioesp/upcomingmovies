@@ -3,12 +3,12 @@ package arctouch.upcomingmovies.domain;
 import java.io.Serializable;
 
 /**
- * Created by cassio on 20/12/17.
+ * Movie Class.
+ * This class represents a movie with all its attributes.
+ *
+ * @author Cassio Espindola
  */
-
 public class Movie implements Serializable {
-
-    private String id;
 
     private String title;
 
@@ -19,15 +19,6 @@ public class Movie implements Serializable {
     private String releaseDate;
 
     private String preview;
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

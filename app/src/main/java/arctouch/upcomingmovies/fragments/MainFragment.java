@@ -30,7 +30,7 @@ import okhttp3.Response;
 /**
  * Main Fragment Class.
  * In this fragment a ListView of movies is exhibited.
- * A ASyncTask is used to make a GET request from the server.
+ * An ASyncTask is used to make a GET request from the server.
  *
  * @author Cassio Espindola
  */
