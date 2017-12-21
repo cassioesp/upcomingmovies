@@ -1,5 +1,6 @@
 package arctouch.upcomingmovies.fragments;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -15,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import arctouch.upcomingmovies.R;
 import arctouch.upcomingmovies.adapters.MovieAdapter;
@@ -65,6 +65,22 @@ public class MainFragment extends Fragment {
         movies = new ArrayList<Movie>();
         adapter = new MovieAdapter(getActivity(), R.layout.row, movies);
         listOfMovies.setAdapter(adapter);
+        listOfMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                android.support.v4.app.FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                MovieFragment movieFragment = new MovieFragment();
+
+                Bundle bundle = new Bundle();
+                Movie movie = adapter.getItem(i);
+                bundle.putSerializable("movie", movie);
+                movieFragment.setArguments(bundle);
+                ft.replace(android.R.id.content, movieFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
 
         // Calls ASyncTask to make a GET request to the server.
         new GetRequest().execute();
@@ -84,7 +100,6 @@ public class MainFragment extends Fragment {
         /* TMDB API KEY.*/
         private final String URL = "https://api.themoviedb.org/3/movie/upcoming?api_key=" +
                 API_KEY + "&language=" + getString(R.string.english_us) + "&page=";
-        private final String POSTER_PATH_URL = "http://image.tmdb.org/t/p/w92/";
 
         private final OkHttpClient client;
 
@@ -118,9 +133,13 @@ public class MainFragment extends Fragment {
 
                     Movie movie = new Movie();
                     movie.setTitle(movieJson.getString(getString(R.string.title)));
-                    movie.setPosterPath(POSTER_PATH_URL + movieJson.getString(getString(R.string.poster_path)));
+                    movie.setPosterPath(movieJson.getString(getString(R.string
+                            .poster_path)));
                     movie.setReleaseDate(movieJson.getString(getString(R.string.release_date)));
-                    movie.setGenre(movieJson.getString(getString(R.string.genre)).split(", "));
+                    movie.setGenre(movieJson.getString(getString(R.string.genre))
+                            .replace("[", "").replace("]", "")
+                            .split(","));
+                    movie.setPreview(movieJson.getString(getString(R.string.overview)));
 
                     movies.add(movie);
                 }
