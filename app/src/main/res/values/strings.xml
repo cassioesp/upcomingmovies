@@ -11,8 +11,7 @@
     <string name="release_date">release_date</string>
     <string name="overview">overview</string>
     <string name="poster_path">poster_path</string>
-    <string name="release_date_label">Release Date: </string>
-    <string name="overview_label">Overview: </string>
+    <string name="release_date_label">Release Date:</string>
     <string name="movie_cover_photo">Movie Cover Photo</string>
 
 </resources>

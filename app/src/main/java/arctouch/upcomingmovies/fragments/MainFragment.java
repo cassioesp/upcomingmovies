@@ -22,6 +22,7 @@ import java.util.Date;
 import arctouch.upcomingmovies.R;
 import arctouch.upcomingmovies.adapters.MovieAdapter;
 import arctouch.upcomingmovies.domain.Movie;
+import arctouch.upcomingmovies.utils.Utils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -108,14 +109,10 @@ public class MainFragment extends Fragment {
     private class GetRequest extends AsyncTask<Void, Void, Void> {
 
         /**
-         * TheMovieDB API KEY.
-         */
-        private final String API_KEY = "1f54bd990f1cdfb230adb312546d765d";
-        /**
          * TMDB API KEY.
          */
         private final String URL = "https://api.themoviedb.org/3/movie/upcoming?api_key=" +
-                API_KEY + "&language=" + getString(R.string.english_us) + "&page=";
+                Utils.API_KEY + "&language=" + getString(R.string.english_us) + "&page=";
         /**
          * Our client to make our requests.
          */
@@ -156,9 +153,9 @@ public class MainFragment extends Fragment {
 
                     String releaseDate = movieJson.getString(getString(R.string.release_date));
                     //Transform data format to dd-MM-yyyy.
-                    SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat spf = new SimpleDateFormat(Utils.JSON_DATE_FORMAT);
                     Date newDate = spf.parse(releaseDate);
-                    spf = new SimpleDateFormat("dd MMM yyyy");
+                    spf = new SimpleDateFormat(Utils.NORMAL_DATE_FORMAT);
                     releaseDate = spf.format(newDate);
                     movie.setReleaseDate(releaseDate);
                     movie.setGenre(movieJson.getString(getString(R.string.genre))

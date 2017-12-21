@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import arctouch.upcomingmovies.R;
 import arctouch.upcomingmovies.domain.Movie;
+import arctouch.upcomingmovies.utils.Utils;
 
 /**
  * My custom adapter created for Movie ListView.
@@ -42,10 +43,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
      * Context.
      */
     private Context context;
-    /**
-     * Poster path for a smaller size cover image.
-     */
-    private final String POSTER_PATH_URL = "http://image.tmdb.org/t/p/w92/";
 
     public MovieAdapter(final Context context, final int resource, final ArrayList<Movie> objects) {
         super(context, resource, objects);
@@ -57,7 +54,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        // convert view = design
         View v = convertView;
         if (v == null) {
             holder = new ViewHolder();
@@ -75,7 +71,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         // This library allows us to download images in background avoiding
         // blocking UI Thread and also implements caching mechanism avoiding
         // the request while the ListView is being scrolled.
-        Picasso.with(context).load(POSTER_PATH_URL + movieList.get(position).getPosterPath()).into(holder.imageview);
+        Picasso.with(context).load(Utils.POSTER_SMALL_PATH_URL + movieList.get(position).getPosterPath()).into(holder.imageview);
         holder.tvTitle.setText(movieList.get(position).getTitle());
         holder.tvReleaseDate.setText("Release Date: " + movieList.get(position).getReleaseDate());
         holder.tvGenre.setText("Genre: " + movieList.get(position).getGenre());

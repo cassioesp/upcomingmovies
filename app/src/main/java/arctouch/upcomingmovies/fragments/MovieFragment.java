@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import arctouch.upcomingmovies.R;
 import arctouch.upcomingmovies.domain.Movie;
+import arctouch.upcomingmovies.utils.Utils;
 
 /**
  * Fragment to show details of the movie selected.
@@ -19,11 +20,6 @@ import arctouch.upcomingmovies.domain.Movie;
  * @author Cassio Espindola
  */
 public class MovieFragment extends Fragment {
-
-    /**
-     * URL Path of the cover movie.
-     */
-    private final String POSTER_LARGE_PATH_URL = "http://image.tmdb.org/t/p/w342/";
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -41,11 +37,11 @@ public class MovieFragment extends Fragment {
         TextView moviePreview = rootView.findViewById(R.id.moviePreview);
 
         //Setting UI elements with movie attributes.
-        Picasso.with(getActivity()).load(POSTER_LARGE_PATH_URL + movie.getPosterPath())
+        Picasso.with(getActivity()).load(Utils.POSTER_LARGE_PATH_URL + movie.getPosterPath())
                 .into(movieCover);
         movieTitle.setText(movie.getTitle());
         movieReleaseDate.setText(getString(R.string.release_date_label) + movie.getReleaseDate());
-        moviePreview.setText(getString(R.string.overview_label) + movie.getPreview());
+        moviePreview.setText(movie.getPreview());
 
         return rootView;
     }
