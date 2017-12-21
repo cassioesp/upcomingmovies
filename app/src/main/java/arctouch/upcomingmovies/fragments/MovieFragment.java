@@ -2,7 +2,6 @@ package arctouch.upcomingmovies.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +23,11 @@ public class MovieFragment extends Fragment {
     /**
      * URL Path of the cover movie.
      */
-    private final String POSTER_LARGE_PATH_URL = "http://image.tmdb.org/t/p/w185/";
+    private final String POSTER_LARGE_PATH_URL = "http://image.tmdb.org/t/p/w342/";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
         // Getting the selected movie by bundle.
@@ -42,12 +41,12 @@ public class MovieFragment extends Fragment {
         TextView moviePreview = rootView.findViewById(R.id.moviePreview);
 
         //Setting UI elements with movie attributes.
-        Picasso.with(getActivity()).load(POSTER_LARGE_PATH_URL + movie.getPosterPath()).into(movieCover);
+        Picasso.with(getActivity()).load(POSTER_LARGE_PATH_URL + movie.getPosterPath())
+                .into(movieCover);
         movieTitle.setText(movie.getTitle());
-        movieReleaseDate.setText(movie.getReleaseDate());
-        moviePreview.setText(movie.getPreview());
+        movieReleaseDate.setText(getString(R.string.release_date_label) + movie.getReleaseDate());
+        moviePreview.setText(getString(R.string.overview_label) + movie.getPreview());
 
         return rootView;
     }
-
 }

@@ -15,7 +15,9 @@ import android.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import arctouch.upcomingmovies.R;
 import arctouch.upcomingmovies.adapters.MovieAdapter;
@@ -26,22 +28,32 @@ import okhttp3.Response;
 
 /**
  * Main Fragment Class.
+ * In this fragment a ListView of movies is exhibited.
+ * A ASyncTask is used to make a GET request from the server.
  *
  * @author Cassio Espindola
  */
 public class MainFragment extends Fragment {
-
+    /**
+     * List which will contains all the movies fetched from the server.
+     */
     private ArrayList<Movie> movies;
-
+    /**
+     * Progress dialog instance.
+     */
     private ProgressDialog pDialog;
-
+    /**
+     * Movie list adapter.
+     */
     private MovieAdapter adapter;
-
+    /**
+     * Represents the result page. Each page contains 20 results.
+     */
     private int page = 1;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -51,6 +63,7 @@ public class MainFragment extends Fragment {
         // Creating the list view footer button "Load More".
         Button btnLoadMore = new Button(getActivity());
         btnLoadMore.setText(getString(R.string.load_more));
+        btnLoadMore.setTextColor(getResources().getColor(android.R.color.white));
         listOfMovies.addFooterView(btnLoadMore);
         btnLoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,16 +104,21 @@ public class MainFragment extends Fragment {
 
     /**
      * This private class is responsible to make a request to the server.
-     * It uses OkHttp3 library
      */
     private class GetRequest extends AsyncTask<Void, Void, Void> {
 
-        /* TheMovieDB API KEY.*/
+        /**
+         * TheMovieDB API KEY.
+         */
         private final String API_KEY = "1f54bd990f1cdfb230adb312546d765d";
-        /* TMDB API KEY.*/
+        /**
+         * TMDB API KEY.
+         */
         private final String URL = "https://api.themoviedb.org/3/movie/upcoming?api_key=" +
                 API_KEY + "&language=" + getString(R.string.english_us) + "&page=";
-
+        /**
+         * Our client to make our requests.
+         */
         private final OkHttpClient client;
 
         private GetRequest() {
@@ -135,12 +153,19 @@ public class MainFragment extends Fragment {
                     movie.setTitle(movieJson.getString(getString(R.string.title)));
                     movie.setPosterPath(movieJson.getString(getString(R.string
                             .poster_path)));
-                    movie.setReleaseDate(movieJson.getString(getString(R.string.release_date)));
+
+                    String releaseDate = movieJson.getString(getString(R.string.release_date));
+                    //Transform data format to dd-MM-yyyy.
+                    SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date newDate = spf.parse(releaseDate);
+                    spf = new SimpleDateFormat("dd MMM yyyy");
+                    releaseDate = spf.format(newDate);
+                    movie.setReleaseDate(releaseDate);
                     movie.setGenre(movieJson.getString(getString(R.string.genre))
                             .replace("[", "").replace("]", "")
                             .split(","));
                     movie.setPreview(movieJson.getString(getString(R.string.overview)));
-
+                    // Finally add to the movies list.
                     movies.add(movie);
                 }
             } catch (Exception e) {

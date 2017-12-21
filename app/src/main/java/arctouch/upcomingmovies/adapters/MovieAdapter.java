@@ -22,16 +22,32 @@ import arctouch.upcomingmovies.domain.Movie;
  */
 
 public class MovieAdapter extends ArrayAdapter<Movie> {
-
-    ArrayList<Movie> movieList;
-    LayoutInflater view;
-    int Resource;
-    ViewHolder holder;
-    Context context;
-
+    /**
+     * List of movies.
+     */
+    private ArrayList<Movie> movieList;
+    /**
+     * View variable.
+     */
+    private LayoutInflater view;
+    /**
+     * Resource variable.
+     */
+    private int Resource;
+    /**
+     * View Holder variable.
+     */
+    private ViewHolder holder;
+    /**
+     * Context.
+     */
+    private Context context;
+    /**
+     * Poster path for a smaller size cover image.
+     */
     private final String POSTER_PATH_URL = "http://image.tmdb.org/t/p/w92/";
 
-    public MovieAdapter(Context context, int resource, ArrayList<Movie> objects) {
+    public MovieAdapter(final Context context, final int resource, final ArrayList<Movie> objects) {
         super(context, resource, objects);
         view = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Resource = resource;
@@ -40,16 +56,16 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         // convert view = design
         View v = convertView;
         if (v == null) {
             holder = new ViewHolder();
             v = view.inflate(Resource, null);
-            holder.imageview = (ImageView) v.findViewById(R.id.ivImage);
-            holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-            holder.tvReleaseDate = (TextView) v.findViewById(R.id.tvReleaseDate);
-            holder.tvGenre = (TextView) v.findViewById(R.id.tvHeight);
+            holder.imageview = v.findViewById(R.id.ivImage);
+            holder.tvTitle = v.findViewById(R.id.tvTitle);
+            holder.tvReleaseDate = v.findViewById(R.id.tvReleaseDate);
+            holder.tvGenre = v.findViewById(R.id.tvHeight);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -67,11 +83,14 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     }
 
+    /**
+     * View Holder Pattern for our ListView.
+     */
     static class ViewHolder {
-        public ImageView imageview;
-        public TextView tvTitle;
-        public TextView tvReleaseDate;
-        public TextView tvGenre;
+        private ImageView imageview;
+        private TextView tvTitle;
+        private TextView tvReleaseDate;
+        private TextView tvGenre;
 
     }
 }

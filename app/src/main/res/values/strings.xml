@@ -1,16 +1,18 @@
 <resources>
-    <string name="app_name">upcomingmovies</string>
+    <string name="app_name">Upcoming Movies</string>
 
-    <string name="please_wait">please wait…</string>
+    <string name="please_wait">please wait a second while fetching results…</string>
     <string name="results">results</string>
     <string name="english_us">en-US</string>
     <string name="load_more">Load More</string>
 
-    <!--  JSON attributes !-->
     <string name="title">title</string>
     <string name="genre">genre_ids</string>
     <string name="release_date">release_date</string>
     <string name="overview">overview</string>
     <string name="poster_path">poster_path</string>
+    <string name="release_date_label">Release Date: </string>
+    <string name="overview_label">Overview: </string>
+    <string name="movie_cover_photo">Movie Cover Photo</string>
 
 </resources>
