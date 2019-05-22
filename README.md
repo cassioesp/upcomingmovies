@@ -3,7 +3,7 @@ This android application fetchs a list of upcoming movies from The Movie DataBas
 about the movie selected.
 
 ## Screenshots
-<img src="https://i.imgur.com/YmwJnm1.png" width="250" /><img src="https://i.imgur.com/jOMj0of.png" width="250" /><img src="https://i.imgur.com/ldN4Mg3.png" width="250" /><img src="https://i.imgur.com/IAJ1DzQ.png" width="250" />
+<img src="https://i.imgur.com/YmwJnm1.png" width="250" /><img src="https://i.imgur.com/ldN4Mg3.png" width="250" /><img src="https://i.imgur.com/IAJ1DzQ.png" width="250" />
 
 ## Features
 * Show all the upcoming movies directly from TMDB API.
